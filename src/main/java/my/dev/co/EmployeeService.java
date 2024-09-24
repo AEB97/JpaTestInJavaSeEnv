@@ -10,8 +10,8 @@ public class EmployeeService {
     public EmployeeService(EntityManager em) {
         this.em = em;
     }
-    public Employee createEmployee(int id, String name, long salary) {
-        Employee emp = new Employee(id);
+    public Employee createEmployee( String name, long salary) {
+        Employee emp = new Employee();
         emp.setName(name);
         emp.setSalary(salary);
         em.persist(emp);
@@ -40,5 +40,12 @@ public class EmployeeService {
                 "SELECT e FROM Employee e", Employee.class);
         return query.getResultList();
     }
+    public Employee addEmployeeProject(int empId, int projId) {
+        Employee emp = em.find(Employee.class, empId);
+        Project proj = em.find(Project.class, projId);
+        proj.addEmployee(emp);
+        return emp;
+    }
+
 
 }
